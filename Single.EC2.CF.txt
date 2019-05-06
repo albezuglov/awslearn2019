@@ -10,14 +10,21 @@ Metadata:
         'y': 58.02545928955078
       z: 0
 Resources:
+  ereer:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupName: My-CF-SecurityGroup
+
   EC2I1OI9R:
     Type: 'AWS::EC2::Instance'
     Properties:
+      AvailabilityZone: us-east-1d
       ImageId: ami-0a313d6098716f372
       InstanceType: t2.micro
       SecurityGroups:
         - My-default-SG
       KeyName: My-default-keypair
+      UserData: IyEvYmluL2Jhc2gKYXB0IHVwZGF0ZSAmJiBhcHQgaW5zdGFsbCB2aW0gbWMgYXBhY2hlMiAteQplY2hvICJIZWxsbyB3b3JsZCBmcm9tICQoaG9zdG5hbWUpPGJyPjx0YWJsZT48dHI+PHRkIHN0eWxlPSdwYWRkaW5nLXJpZ2h0OiAzMHB4OycgPlB1YmxpYyBob3N0bmFtZTogPC90ZD48dGQ+JChjdXJsIGh0dHA6Ly8xNjkuMjU0LjE2OS4yNTQvbGF0ZXN0L21ldGEtZGF0YS9wdWJsaWMtaG9zdG5hbWUpPC90ZD48L3RyPjx0cj48dGQ+UHVibGljIElQOiA8L3RkPjx0ZD4kKGN1cmwgaHR0cDovLzE2OS4yNTQuMTY5LjI1NC9sYXRlc3QvbWV0YS1kYXRhL3B1YmxpYy1pcHY0KTwvdGQ+PC90cj48dHI+PHRkPkF2YWlsYWJpbGl0eSB6b25lOiA8L3RkPjx0ZD4kKGN1cmwgaHR0cDovLzE2OS4yNTQuMTY5LjI1NC9sYXRlc3QvbWV0YS1kYXRhL3BsYWNlbWVudC9hdmFpbGFiaWxpdHktem9uZSk8L3RkPjwvdHI+PC90YWJsZT4iID4gL3Zhci93d3cvaHRtbC9pbmRleC5odG1s
     Metadata:
       'AWS::CloudFormation::Designer':
         id: e4a371e0-1f7c-435e-9976-3cec11cc23eb
