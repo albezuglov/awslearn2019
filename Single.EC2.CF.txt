@@ -10,11 +10,6 @@ Metadata:
         'y': 58.02545928955078
       z: 0
 Resources:
-  ereer:
-    Type: 'AWS::EC2::SecurityGroup'
-    Properties:
-      GroupName: My-CF-SecurityGroup
-
   EC2I1OI9R:
     Type: 'AWS::EC2::Instance'
     Properties:
