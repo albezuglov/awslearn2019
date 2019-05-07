@@ -1,0 +1,56 @@
+AWSTemplateFormatVersion: 2010-09-09
+Metadata:
+  'AWS::CloudFormation::Designer':
+    e4a371e0-1f7c-435e-9976-3cec11cc23eb:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 337.0046081542969
+        'y': 58.02545928955078
+      z: 0
+Parameters:
+  AvailibilityZoneParameter:
+    Type: String
+    Default: us-east-1d
+    AllowedValues:
+      - us-east-1a
+      - us-east-1b
+      - us-east-1c
+      - us-east-1d
+      - us-east-1e
+      - us-east-1f
+    Description: Choose AZ, valid values are us-east-1a - us-east-1f
+Resources:
+  MyCFtestSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupName: My-CFtest-SG
+      GroupDescription: CloudFormation instances default SecurityGroup
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: 22
+        ToPort: 22
+        CidrIp: 0.0.0.0/0
+      - IpProtocol: tcp
+        FromPort: 80
+        ToPort: 80
+        CidrIp: 0.0.0.0/0   
+      - IpProtocol: tcp
+        FromPort: 443
+        ToPort: 443
+        CidrIp: 0.0.0.0/0  
+        
+  MySimpleEC2Instance:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      AvailabilityZone: us-east-1d
+      ImageId: ami-0549c9e96a34f0e55
+      InstanceType: t2.micro
+      SecurityGroups:
+        - Ref: MyCFtestSecurityGroup
+      KeyName: My-default-keypair
+      UserData: IyEvYmluL2Jhc2gKZ2l0IGNsb25lIC0tc2luZ2xlLWJyYW5jaCAtLWJyYW5jaCBTaW1wbGVFQzJJbml0IGdpdEBnaXRodWIuY29tOmFsYmV6dWdsb3YvYXdzbGVhcm4yMDE5LmdpdCAvcm9vdC9naXRjbG9uZQovYmluL2Jhc2ggL3Jvb3QvZ2l0Y2xvbmUvaW5pdC5zaA==
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: e4a371e0-1f7c-435e-9976-3cec11cc23eb
