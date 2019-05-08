@@ -9,7 +9,7 @@ Metadata:
         x: 337.0046081542969
         'y': 58.02545928955078
       z: 0     
-       
+
 Parameters:
   AvailibilityZoneParameter:
     Type: String
@@ -42,17 +42,28 @@ Resources:
         FromPort: 443
         ToPort: 443
         CidrIp: 0.0.0.0/0  
-        
+  
+  MySimpleEC2Template:
+    Type: 'AWS::EC2::LaunchTemplate'
+    Properties:
+      LaunchTemplateName: My-SimpleEC2-template
+      LaunchTemplateData: 
+        ImageId: ami-0549c9e96a34f0e55
+        InstanceType: t2.micro
+        SecurityGroups:
+          - Ref: MyCFtestSecurityGroup
+        KeyName: My-default-keypair
+        UserData: IyEvYmluL2Jhc2gKZ2l0IGNsb25lIC0tc2luZ2xlLWJyYW5jaCAtLWJyYW5jaCBTaW1wbGVFQzJJbml0IGdpdEBnaXRodWIuY29tOmFsYmV6dWdsb3YvYXdzbGVhcm4yMDE5LmdpdCAvcm9vdC9naXRjbG9uZQovYmluL2Jhc2ggL3Jvb3QvZ2l0Y2xvbmUvaW5pdC5zaA==
+    DependsOn:  MyCFtestSecurityGroup
+
   MySimpleEC2Instance:
     Type: 'AWS::EC2::Instance'
     Properties:
-      AvailabilityZone: us-east-1d
-      ImageId: ami-0549c9e96a34f0e55
-      InstanceType: t2.micro
-      SecurityGroups:
-        - Ref: MyCFtestSecurityGroup
-      KeyName: My-default-keypair
-      UserData: IyEvYmluL2Jhc2gKZ2l0IGNsb25lIC0tc2luZ2xlLWJyYW5jaCAtLWJyYW5jaCBTaW1wbGVFQzJJbml0IGdpdEBnaXRodWIuY29tOmFsYmV6dWdsb3YvYXdzbGVhcm4yMDE5LmdpdCAvcm9vdC9naXRjbG9uZQovYmluL2Jhc2ggL3Jvb3QvZ2l0Y2xvbmUvaW5pdC5zaA==
+      AvailabilityZone: !Ref AvailibilityZoneParameter
+      LaunchTemplate: 
+        LaunchTemplateName: My-SimpleEC2-template
+        Version: 1
+    DependsOn:  MySimpleEC2Template
     Metadata:
       'AWS::CloudFormation::Designer':
         id: e4a371e0-1f7c-435e-9976-3cec11cc23eb
