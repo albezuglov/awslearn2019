@@ -67,3 +67,7 @@ Resources:
     Metadata:
       'AWS::CloudFormation::Designer':
         id: e4a371e0-1f7c-435e-9976-3cec11cc23eb
+Outputs:
+  EC2InstancePublicName:
+    Description: EC2 instance public name
+    Value: !GetAtt MySimpleEC2Instance.PublicDnsName
