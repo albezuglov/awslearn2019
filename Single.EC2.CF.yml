@@ -8,9 +8,9 @@ Metadata:
       position:
         x: 337.0046081542969
         'y': 58.02545928955078
-      z: 0   
-         
+      z: 0      
 Parameters:
+
   AvailibilityZoneParameter:
     Type: String
     Default: us-east-1d
