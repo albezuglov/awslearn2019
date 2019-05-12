@@ -32,14 +32,19 @@ Resources:
         KeyName: My-default-keypair
         UserData: IyEvYmluL2Jhc2gKZ2l0IGNsb25lIC0tc2luZ2xlLWJyYW5jaCAtLWJyYW5jaCBTaW1wbGVFQzJJbml0IGdpdEBnaXRodWIuY29tOmFsYmV6dWdsb3YvYXdzbGVhcm4yMDE5LmdpdCAvcm9vdC9naXRjbG9uZQovYmluL2Jhc2ggL3Jvb3QvZ2l0Y2xvbmUvaW5pdC5zaA==
 
-  # MySimpleEC2Instance:
-  #   Type: 'AWS::EC2::Instance'
-  #   Properties:
-  #     AvailabilityZone: !Ref AvailibilityZoneParameter
-  #     LaunchTemplate:
-  #       LaunchTemplateName: My-SimpleEC2-template
-  #       Version: 1
-  #   DependsOn:  MySimpleEC2Template
+  MyELBClassic:
+    Type: AWS::ElasticLoadBalancing::LoadBalancer
+    Properties:
+      AvailabilityZones:
+        - us-east-1a
+        - us-east-1b
+        - us-east-1c
+      Listeners:
+        - InstancePort: 80
+          InstanceProtocol: HTTP
+          LoadBalancerPort: 80
+          Protocol: HTTP
+      CrossZone: true
 
   MyASGSimple:
     Type: AWS::AutoScaling::AutoScalingGroup
@@ -52,6 +57,8 @@ Resources:
       LaunchTemplate:
         LaunchTemplateName: My-SimpleEC2-template
         Version: 1
+      LoadBalancerNames:
+        - Ref: MyELBClassic
       MinSize: 1
       MaxSize: 3
     DependsOn:  MySimpleEC2Template
