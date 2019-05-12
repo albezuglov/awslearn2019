@@ -1,0 +1,58 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Resources:
+  MyCFtestSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupName: My-CFtest-SG
+      GroupDescription: CloudFormation instances default SecurityGroup
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: 22
+        ToPort: 22
+        CidrIp: 0.0.0.0/0
+      - IpProtocol: tcp
+        FromPort: 80
+        ToPort: 80
+        CidrIp: 0.0.0.0/0
+      - IpProtocol: tcp
+        FromPort: 443
+        ToPort: 443
+        CidrIp: 0.0.0.0/0
+
+  MySimpleEC2Template:
+    Type: 'AWS::EC2::LaunchTemplate'
+    Properties:
+      LaunchTemplateName: My-SimpleEC2-template
+      LaunchTemplateData:
+        ImageId: ami-0549c9e96a34f0e55
+        InstanceType: t2.micro
+        SecurityGroups:
+          - Ref: MyCFtestSecurityGroup
+        KeyName: My-default-keypair
+        UserData: IyEvYmluL2Jhc2gKZ2l0IGNsb25lIC0tc2luZ2xlLWJyYW5jaCAtLWJyYW5jaCBTaW1wbGVFQzJJbml0IGdpdEBnaXRodWIuY29tOmFsYmV6dWdsb3YvYXdzbGVhcm4yMDE5LmdpdCAvcm9vdC9naXRjbG9uZQovYmluL2Jhc2ggL3Jvb3QvZ2l0Y2xvbmUvaW5pdC5zaA==
+
+  # MySimpleEC2Instance:
+  #   Type: 'AWS::EC2::Instance'
+  #   Properties:
+  #     AvailabilityZone: !Ref AvailibilityZoneParameter
+  #     LaunchTemplate:
+  #       LaunchTemplateName: My-SimpleEC2-template
+  #       Version: 1
+  #   DependsOn:  MySimpleEC2Template
+
+  MyASGSimple:
+    Type: AWS::AutoScaling::AutoScalingGroup
+    Properties:
+      AutoScalingGroupName: My-simple-ASG
+      AvailabilityZones:
+        - us-east-1a
+        - us-east-1b
+        - us-east-1c
+      LaunchTemplate:
+        LaunchTemplateName: My-SimpleEC2-template
+        Version: 1
+      MinSize: 1
+      MaxSize: 3
+    DependsOn:  MySimpleEC2Template
+
